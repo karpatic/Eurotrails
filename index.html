@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<style>
+section.calendar {
+  background-color: #29323f;
+  font-family: 'Dosis', sans-serif;
+  color: #fff;
+  width: 400px;
+  padding: 45px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
+  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+}
+section.calendar h1 {
+  text-align: center;
+  color: #fcee6d;
+  margin: 0 0 30px 0;
+}
+section.calendar form {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-align-content: flex-start;
+      -ms-flex-line-pack: start;
+          align-content: flex-start;
+}
+section.calendar form label.weekday {
+  display: inline-block;
+  width: 25px;
+  margin: 8px;
+  text-align: center;
+  color: #999;
+}
+section.calendar form form {
+  margin: 0;
+  padding: 0;
+}
+section.calendar form label.day {
+  display: inline-block;
+  width: 25px;
+  margin: 8px;
+}
+section.calendar form label.day span {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  border: 2px solid #29323f;
+  text-align: center;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+  cursor: pointer;
+}
+section.calendar form label.day span:hover {
+  border-color: #e7d84f;
+}
+section.calendar form label.day em {
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  border-color: #29323f;
+  width: 3px;
+  height: 3px;
+  background-color: #685e02;
+  margin-left: 11px;
+  margin-top: 2px;
+  opacity: 0;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+}
+section.calendar form label.day input[type=text] {
+  border: 0;
+  opacity: 0;
+  position: absolute;
+  margin-top: 40px;
+  left: -45px;
+  width: 380px;
+  height: 1px;
+  padding: 0;
+  outline: none;
+  font-size: 16px;
+  -webkit-transition: height .2s linear, opacity .2s linear, color .02s linear;
+  transition: height .2s linear, opacity .2s linear, color .02s linear;
+  color: #fff;
+}
+section.calendar form label.day input[type=text]:focus {
+  opacity: 1;
+  height: 35px;
+  padding: 10px 40px;
+  left: -45px;
+  width: 400px;
+  color: #29323f;
+}
+section.calendar form label.day input[type=text]:focus + span {
+  color: #fcee6d;
+  border-color: #fcee6d;
+  background: #fcee6d;
+  color: #29323f;
+  font-weight: bold;
+  margin-bottom: 65px;
+}
+section.calendar form label.day input[type=text]:focus ~ em {
+  border-radius: 0;
+  border: 5px solid transparent;
+  background: transparent;
+  border-bottom-color: white;
+  margin-top: -62px;
+  margin-left: 7px;
+  width: 0;
+  height: 0;
+  display: inline-block;
+  opacity: 1;
+}
+section.calendar form label.day input[type=text]:valid ~ em {
+  display: inline-block;
+  opacity: 1;
+}
+section.calendar form label.day.invalid {
+  opacity: 0;
+  width: 25px;
+  height: 25px;
+}
+section.calendar form label.day.invalid span, section.calendar form label.day.invalid input {
+  display: none;
+}
+section.calendar div.clearfix {
+  clear: both;
+}
+section.calendar div.hidden {
+  display: none;
+}
+
+</style>
+
+
+
+<html lang="en">
+
+<!--   
+mix-blend-mode: difference;
+mix-blend-mode: darken;
+mix-blend-mode: screen;
+mix-blend-mode: lighten;
+  -->
+  
+<style>
+.thumb {
+	margin-bottom: 30px;
+}
+		
+.navbar {
+  z-index: -1;
+  background: black;
+  color: #000;
+  mix-blend-mode: difference;
+}
+
+.timeline-content h2 {
+    padding: 15px;
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    border-radius: 6px 6px 0 0;
+    position: relative;
+}
+.timeline-content h2 {
+    background: #e74c3c;
+}
+.timeline-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+}
+.timeline-icon p {
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    margin-left: -12px;
+    margin-top: -12px;
+    color: white;
+}
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+
+hr.star-light {
+    border-color: #fff;
+}
+
+hr.star-light:after {
+    color: #fff;
+}
+
+hr.star-primary {
+    border-color: #2c3e50;
+}
+
+hr.star-primary:after {
+    color: #2c3e50;
+    background-color: #fff;
+}
+
+hr.star-light:after, hr.star-primary:after {
+    content: "\f005";
+    display: inline-block;
+    position: relative;
+    top: -.8em;
+    padding: 0 .25em;
+    font-family: FontAwesome;
+    font-size: 2em;
+}
+.scroll-top {
+    z-index: 1049;
+    position: fixed;
+    right: 2%;
+    bottom: 2%;
+    width: 50px;
+    height: 50px;
+}
+
+.scroll-top .btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.scroll-top .btn:focus {
+    outline: 0;
+}
+</style>
+
+<style>
+
+.slide {
+  position: relative;
+  padding: 25vh 10%;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  box-shadow: 0 -1px 10px rgba(0, 0, 0, .7);
+	transform-style: inherit;
+}
+
+.slide:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+}
+
+.slide:nth-child(2n) .title {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.slide:nth-child(2n+1) .title {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.slide, .slide:before {
+  background: 50% 50% / cover;
+    height: 100%;
+    padding-top: 150px;
+}
+
+header {
+    background-image: url(
+	http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/10/Budapest-Wallpaper-1920x1080.jpg
+	);
+    background-repeat: none;
+    background-attachment: fixed;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+    color: #fff
+}
+
+#about:before {
+    background-image: url(
+	http://s1.1zoom.net/big7/285/Budapest_Hungary_Castles_471736.jpg
+	);
+    background-repeat: none;
+    background-attachment: fixed;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+    color: #fff
+
+  transform: translateZ(-1px) scale(2);
+  z-index:-1;
+}
+
+#resources {
+    background-image: url(
+http://s1.1zoom.net/big7/285/Budapest_Hungary_Castles_471736.jpg
+);
+	    background-repeat: none;
+    background-attachment: fixed;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+    color: #fff
+
+  background-attachment: fixed;
+}
+
+section#timeline {
+    background-color: #222;
+    background-image: url(img/map-image.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#blog:before {
+  background-image: url("http://lorempixel.com/640/480/abstract/5/");
+  transform: translateZ(-1px) scale(2);
+  z-index:-1;
+}
+
+#gallery {
+    background-image: url(
+		http://s1.1zoom.net/big7/355/Budapest_Hungary_Houses_469902.jpg
+	);
+    background-repeat: none;
+    background-attachment: fixed;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+    color: #fff
+}
+
+</style>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Euro Trails</title>
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="css/agency.css" rel="stylesheet">
+<link href="css/grayscale.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/hoverstyle.css">
+<!-- Custom Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+<!-- Custom Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+
+</head>
+<body id="page-top" class="index">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header page-scroll">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand page-scroll" href="#page-top">Euro Trails</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav navbar-right">
+			<li class="hidden">
+			<a href="#page-top"></a>
+			</li>
+			<li>
+				<a class="page-scroll three-d" href="#about">
+					<div style="visibility: hidden;"> About </div>
+					<span aria-hidden="true" class="three-d-box">
+						<span class="front">About</span>
+						<span class="back">About</span>
+					</span>
+				</a>
+			</li>
+			<li>
+				<a class="page-scroll three-d" href="#resources">
+					<div style="visibility: hidden;"> Resources </div>
+					<span aria-hidden="true" class="three-d-box">
+						<span class="front">Resources</span>
+						<span class="back">Resources</span>
+					</span>
+				</a>
+			</li>
+			<li>
+				<a class="page-scroll three-d" href="#timeline">
+					<div style="visibility: hidden;"> Timeline </div>
+					<span aria-hidden="true" class="three-d-box">
+						<span class="front">Timeline</span>
+						<span class="back">Timeline</span>
+					</span>
+				</a>
+			</li>
+			<li>
+				<a class="page-scroll three-d" href="#blog">
+					<div style="visibility: hidden;"> Entries </div>
+					<span aria-hidden="true" class="three-d-box">
+						<span class="front">Entries</span>
+						<span class="back">Entries</span>
+					</span>
+				</a>
+			</li>
+			<li>
+				<a class="page-scroll three-d" href="#gallery">
+					<div style="visibility: hidden;"> Gallery </div>
+					<span aria-hidden="true" class="three-d-box">
+						<span class="front">Gallery</span>
+						<span class="back">Gallery</span>
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- /.navbar-collapse -->
+</div>
+<!-- /.container-fluid -->
+</nav>
+<!-- Header -->
+<header>
+<div id="title" class="container slide">
+
+
+	<div class="intro-text">
+		<div class="intro-lead-in">
+			Welcome To My Travel Blog!
+		</div>
+		<div class="intro-heading">
+		<div class="col-xs-6 text-right" id="scrollfirst">
+			Join The
+		</div>
+		<div class="col-xs-6 text-left" id="scrollsecond">
+<span class="word midnight">Fun</span>
+    <span class="word wisteria">Trip</span>
+    <span class="word belize">Life</span>
+    <span class="word pomegranate">Love</span>
+    <span class="word green">Beauty</span>
+	<br>
+	<br>
+		</div>
+		</div>
+	<script src="js/index.js"></script>
+		<a href="#timeline" class="page-scroll btn btn-xl">Lets Begin!</a>
+		<br>
+		<a href="#about" class="btn btn-circle btn-x1 page-scroll">
+		<i class="fa fa-angle-double-down animated"></i>
+		</a>
+	</div>
+</div>
+</header>
+<!-- About Section -->
+<section id="about">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h2>Who Am I</h2>
+			<hr class="star-light">
+			<h3 class="text-muted">A Quick Blurb About Me.</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<div class="text-center">
+				<img src="http://www.charleskarpati.com/images/CostaRica.jpg" class="img-centered img-circle" style="margin:0" alt="">
+				<h4>Charles Karpati</h4>
+				<p class="text-muted">
+					Student Designer Developer
+				</p>
+				<br>
+				<br>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 text-center">
+			<p class="large text-muted">
+				After having just graduated from my Undergrad in Information Systems at the University of Maryland Baltimore Campus (UMBC) I started my long awaited Eurotrip and have created this website to share my experiences with you!
+			</p>
+		</div>
+	</div>
+</div>
+</section>
+<!-- Services Section -->
+<section id="resources">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h2>Resources</h2>
+			<hr class="star-light">
+			<h3 class="text-muted">What will you find on my travel blog?</h3>
+		</div>
+	</div>
+	<div class="row text-center">
+		<div class="col-md-4">
+			<span class="fa-stack fa-4x">
+			<i class="fa fa-circle fa-stack-2x text-primary"></i>
+			<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+			</span>
+			<h4>Entries</h4>
+			<p class="text-muted">
+				Uploaded Daily (or so I hope!)
+			</p>
+		</div>
+		<div class="col-md-4">
+			<span class="fa-stack fa-4x">
+			<i class="fa fa-circle fa-stack-2x text-primary"></i>
+			<i class="fa fa-camera-retro fa-stack-1x fa-inverse"></i>
+			</span>
+			<h4>Photos</h4>
+			<p class="text-muted">
+				Albums will be uploaded on a weekly basis
+			</p>
+		</div>
+		<div class="col-md-4">
+			<span class="fa-stack fa-4x">
+			<i class="fa fa-circle fa-stack-2x text-primary"></i>
+			<i class="fa fa-map-marker fa-stack-1x fa-inverse"></i>
+			<!-- heart, heart-o map, map-marker, map-o, morter-board, plane -->
+			</span>
+			<h4>More!</h4>
+			<p class="text-muted">
+				Quality entertainment to last hours!.
+			</p>
+		</div>
+	</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section id="timeline">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h2>Timeline</h2>
+			<hr class="star-light">
+			<h3 class="text-muted">Select a date to view my enties</h3>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<p> “A journey is best measured in friends, rather than miles.” – Tim Cahill </p>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<p> “Not all those who wander are lost.” – J.R.R. Tolkien </p>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<p> “Take only memories, leave only footprints.” – Chief Seattle </p>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<p> “Oh the places you’ll go.” – Dr. Seuss </p>
+		</div>
+	</div>
+	<div id="timelinee" class="nav-tabs">
+		<div class="dot" data-toggle="tab" href="#one">
+			<span></span>
+			<date>May</date>
+		</div>
+		<div class="dot" data-toggle="tab" href="#two">
+			<span></span>
+			<date>June</date>
+		</div>
+		<div class="dot" data-toggle="tab" href="#three">
+			<span></span>
+			<date>July</date>
+		</div>
+		<div class="dot" data-toggle="tab" href="#four">
+			<span></span>
+			<date>August</date>
+		</div>
+		<div class="dot" data-toggle="tab" href="#five">
+			<span></span>
+			<date>Overview</date>
+		</div>
+	</div>
+</div>
+</section>
+
+<!-- Blog Section -->
+<section id="blog">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h2>Entries</h2>
+			<hr class="star-light">
+			<h3 class="text-muted">Please select a date on the timeline to view my entries</h3>
+			<br>
+		</div>
+		<div class="col-lg-12">
+			<!-- Modals -->
+			<div class="tab-content">
+				<div id="one" class="tab-pane">
+					<date>May 24-31, 2016</date>
+					<div class="container">
+						<h1 class="project-name">Settling In</h1>
+						<p>
+							 My first week in Budapest.
+						</p>
+						<div id="timeline">
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										24<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content">
+									<h2>Airplane to Budapest</h2>
+									<div class="icon thunder-storm" style="float:left;">
+									  <div class="cloud"></div>
+									  <div class="lightning">
+										<div class="bolt"></div>
+										<div class="bolt"></div>
+									  </div>
+									</div>
+									<p> Weather: Thunder Storm </p>
+									<p> Temperature: Low:14 - High: 22 </p>
+									<p> It's Tuesday and I spent the whole day on airplanes for a grueling 11 hour ride. Starting in Bethesda my sister drives me to the airport. My flight makes one stop in Munich and  I continue on my way</p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										25<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content right">
+									<h2>Unpacking</h2>
+									<div class="icon sun-shower" style="float:left;">
+									  <div class="cloud"></div>
+									  <div class="sun">
+										<div class="rays"></div>
+									  </div>
+									  <div class="rain"></div>
+									</div>
+									<p> Weather: Slight Showers </p>
+									<p> Temperature: Low:17 - High: 24 </p>
+									<p> It's Wednesday evening when I arrive and I begin by making quick work of the things on my Todo List. For the longest time I couldnt shake the feeling like I was about to turn the corner and meet someone I knew. </p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										26<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content">
+									<h2>Buying a Longboard, Booking Classes</h2>
+									<div class="icon sunny" style="float:left;">
+									  <div class="sun">
+										<div class="rays"></div>
+									  </div>
+									</div>
+									<p> Weather: Sunny </p>
+									<p> Temperature: Low:18 - High: 26 </p>
+									<p> The last time I was here I brought a longboard but it broke because of excessive use. I bought a plastic one almost immediately and left it here in Hungary because it was considered a security issue if I brought it on the plane. </p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										 27<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content right">
+									<h2>Thursday: The day I did something</h2>
+									<div class="icon sunny" style="float:left;">
+									  <div class="sun">
+										<div class="rays"></div>
+									  </div>
+									</div>
+									<p> Weather: Sunny </p>
+									<p> Temperature: Low:16 - High: 29 </p>
+									<!--
+									<div class="icon flurries" style="float:left;">
+									  <div class="cloud"></div>
+									  <div class="snow">
+										<div class="flake"></div>
+										<div class="flake"></div>
+									  </div>
+									</div>
+									-->
+									<p> Today is Thursday and something happened today I dont know what it was but I will get to filling this all out later.</p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										 28<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content">
+									<h2>Friday: First day of school!</h2>
+									<div class="icon sunny" style="float:left;">
+									  <div class="sun">
+										<div class="rays"></div>
+									  </div>
+									</div>
+									<p> Weather: Sunny </p>
+									<p> Temperature: Low:23 - High: 29 </p>
+									<p> It is really bad, I know - but I start to forget on what days I did what. I know today I went to my first day of class and then went to the mall to study with this chinese girl. later that night I tried to meet up with some students from class but got lost :'( I kept all my recipts so that I would not forget. Additionally I have a lot of conversations I could read through to give me clues on facebook.</p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										 29<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content right">
+									<h2>Saturday: </h2>
+									<div class="icon sunny" style="float:left;">
+									  <div class="sun">
+										<div class="rays"></div>
+									  </div>
+									</div>
+									<p> Weather: Sunny </p>
+									<p> Temperature: Low:23 - High: 29 </p>
+									<p> Beyond all that I also have google stalking my every move which is nice because now I have detailed maps of where I have been and how long I have been there. It's going to be really depressing seeing the days where I spent the day in bed. It's alright though, I needed the time to make this website, troll the internet and relax after a hard won semester at UMBC. </p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										 30<sup>th </sup>
+									</p>
+								</div>
+								<div class="timeline-content">
+									<h2>Sunday: </h2>
+									<div class="icon rainy" style="float:left;">
+									  <div class="cloud"></div>
+									  <div class="rain"></div>
+									</div>
+									<p> Weather: Rainy </p>
+									<p> Temperature: Low:21 - High: 26 </p>
+									<p> To be honest this is just filler text to make my website look nice. For Whatever reason the images of the clouds on the left hand sides of this timeline will pop out of the box if there is not substantive text. I will have to come back and actually add information.</p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+							<div class="timeline-item">
+								<div class="timeline-icon">
+									<p>
+										 31<sup>st </sup>
+									</p>
+								</div>
+								<div class="timeline-content right">
+									<h2>Monday: Classes 'really' Begin</h2>
+									<div class="icon cloudy" style="float:left;">
+									  <div class="cloud"></div>
+									  <div class="cloud"></div>
+									</div>
+									<p> Weather: Cloudy </p>
+									<p> Temperature: Low:18 - High: 25 </p>
+									<p> With that being said don't actually try clicking on the "more information" buttons because they dont link to anywhere just yet. So far this website is still undergoing the design process so don't get your hopes up to see anything in my gallery and the like. </p>
+									<a href="#" class="btn-pop">More Info</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div id="two" class="tab-pane fade">
+					<date>June 2016</date>
+					<h2>Life as a Local</h2>
+					<p>
+						 A whole month left to my own devices!
+					</p>
+				</div>
+				<div id="three" class="tab-pane fade">
+					<date>July 2016</date>
+					<h2>A Long Way From Home!</h2>
+					<p>
+						 Where my Eurotrip takes off.
+					</p>
+				</div>
+				<div id="four" class="tab-pane fade">
+					<date>August 1-19, 2016</date>
+					<h2>Homeword Bound</h2>
+					<p>
+						 Squeezing the most out of my last summer days.
+					</p>
+				</div>
+				<ul id="five" class="timeline tab-pane fade in active">
+					<li>
+					<a class="timeline-image gallery-link" <a href="#calendar1" data-toggle="modal">
+						<img class="img-circle img-responsive" src="img/about/1.jpg" alt="">
+					</a>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h1 class="project-name">Overview</h1>
+							<h4>May</h4>
+							<h4 class="subheading">Settling In</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">
+								Click on the red timeline circle to read about my first week in Budapest! A very busy week to say the least - I really went full tourist! Beyond that this was also the time for me to set up and prepare myself for the weeks to come.
+							</p>
+						</div>
+					</div>
+					</li>
+					<li class="timeline-inverted">
+					<a class="timeline-image gallery-link" <a href="#calendar2" data-toggle="modal">
+						<img class="img-circle img-responsive" src="img/about/2.jpg" alt="">
+					</a>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4>June</h4>
+							<h4 class="subheading">Life as a local</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">
+								The whole month of June has been dedicated to living in Budapest, Learning the language, and reconnecting with friend and family. Click the Green button to learn more!
+							</p>
+						</div>
+					</div>
+					</li>
+					<li>
+					<a class="timeline-image gallery-link" <a href="#calendar3" data-toggle="modal">
+						<img class="img-circle img-responsive" src="img/about/3.jpg" alt="">
+					</a>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4>July</h4>
+							<h4 class="subheading">A long way from home</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">
+								About mid-July is when my eurotrip really takes off! On this leg of the trip I will visit the Balaton, Bratislava, Vienna, Prague, Amsterdam, Belgium, Paris, Barcelona!
+							</p>
+						</div>
+					</div>
+					</li>
+					<li class="timeline-inverted">
+					<a class="timeline-image gallery-link" <a href="#calendar4" data-toggle="modal">
+						<img class="img-circle img-responsive" src="img/about/4.jpg" alt="">
+					</a>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4>August</h4>
+							<h4 class="subheading">Home Coming</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">
+								On the final leg of my trip I return from Barcelona to Budapest and back home! On this leg of the trip I will visit Nice, Monaco, Turin, Milan, Bern and Munich!
+							</p>
+						</div>
+					</div>
+					</li>
+					<li class="timeline">
+					<a class="timeline-image page-scroll" href="#gallery">
+						<h4>Check out <br>
+						my photo <br>
+						gallery!</h4>
+					</a>
+					<div class="timeline-panel">
+						<div class="timeline-heading">
+							<h4>Quick Tip</h4>
+							<h4 class="subheading">Hidden Feature!</h4>
+						</div>
+						<div class="timeline-body">
+							<p class="text-muted">
+								Clicking on a photo in each of these circles will lead you to a calendar! This calendar is a convenient way to view everything I did in the month by just looking at the entry titles. 
+								<br>This last circle will take you to my gallery!
+							</p>
+						</div>
+					</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</section>
+	<!-- Map Section -->
+	<div id="map">
+	</div>
+	<!-- Gallery Grid Section -->
+	<section id="gallery">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2>Gallery</h2>
+				<hr class="star-light">
+				<h3 class="text-muted">A collection of my photos.</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal1" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/Hungary2012.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Hungary 2012</h4>
+					<p class="text-muted">
+						With my Sisters
+					</p>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal2" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/Europe2012.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Europe 2012</h4>
+					<p class="text-muted">
+						Italy, Croatia, Bratislava, England
+					</p>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal3" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/Hungary2014.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Hungary 2014</h4>
+					<p class="text-muted">
+						By myself
+					</p>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal4" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/EasternEurope2014.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Eastern Europe 2014</h4>
+					<p class="text-muted">
+						Bosnia & Herzganova, Croatia, Austria, Slovakia, Slovenia
+					</p>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal5" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/Hungary2016.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Hungary 2016</h4>
+					<p class="text-muted">
+						By myself
+					</p>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 gallery-item">
+				<a href="#galleryModal6" class="gallery-link" data-toggle="modal">
+				<div class="gallery-hover">
+					<div class="gallery-hover-content">
+						<i class="fa fa-search-plus fa-3x"></i>
+					</div>
+				</div>
+				<img src="img/portfolio/WesternEurope2016.jpg" class="img-responsive" alt="">
+				</a>
+				<div class="gallery-caption">
+					<h4>Western Europe 2016</h4>
+					<p class="text-muted">
+						Slovakia, Austria, Czech Republic, Germany, Netherlands, Belgium, France, Spain, Italy, Switzerland
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</section>
+	<footer>
+	<div class="container">
+		<div class="row text-center">
+			<h4><strong>Contact Me</strong>
+			</h4>
+			<p>Residency:<br>Bethesda, Md 20814</p>
+			<ul class="list-unstyled">
+				<li><i class="fa fa-phone fa-fw"></i> (301) 300-4728</li>
+				<li><i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:charles.karpati@gmail.com.com">charles.karpati@gmail.com</a>
+				</li>
+			</ul>
+			<br>
+			<hr class="small">
+			<span class="copyright">Copyright &copy; <a href="http://www.charleskarpati.com">Charles Karpati 2016 </a></span>
+			</a>
+		</div>
+	</div>
+	</footer>
+	<!-- jQuery -->
+	<script src="js/jquery.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Plugin JavaScript -->
+	<script src="js/jquery.easing.min.js"></script>
+	<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+	<!-- Plugin JavaScript -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+	<script src="js/classie.js"></script>
+	<script src="js/cbpAnimatedHeader.js"></script>
+	<!-- Contact Form JavaScript -->
+	<script src="js/jqBootstrapValidation.js"></script>
+	<script src="js/contact_me.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="js/agency.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="js/grayscale.js"></script>
+	
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visible-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+	
+	</body>
+	</html>
+	<!-- Gallery Modals -->
+	<!-- Use the modals below to showcase details about your Gallery! -->
+	<!-- Gallery Modal 1 -->
+	<div class="gallery-modal modal fade" id="galleryModal1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-content">
+			<div class="close-modal" data-dismiss="modal">
+				<div class="lr">
+					<div class="rl">
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="modal-body" style="color:black">
+							<!-- Project Details Go Here -->
+							<h2>Hungary 2012</h2>
+							
+							<ul class="list-inline">
+								<li>Date: May - July 2012</li>
+								<li>Budapest: Zoo, Our House, Around Town</li>
+								<li>Balaton: Lake Balaton</li>
+								<li>Szentendre: Our House</li>
+							</ul>
+		<hr>
+		<br>
+		<br>
+        <div class="row hover01">
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                    <figure><img class="img-responsive" src="img/portfolio/Hungary2012.jpg" alt=""></figure>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                    <figure><img class="img-responsive" src="img/portfolio/EasternEurope2014.jpg" alt=""></figure>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                    <figure><img class="img-responsive" src="img/portfolio/Hungary2016.jpg" alt=""></figure>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                    <figure><img class="img-responsive" src="img/portfolio/WesternEurope2016.jpg" alt=""></figure>
+                </a>
+            </div>
+        </div>
+        <hr>
+							<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="gallery-modal modal fade" id="calendar1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-content">
+			<div class="close-modal" data-dismiss="modal">
+				<div class="lr">
+					<div class="rl">
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="modal-body" style="color:black">
+							<!-- Project Details Go Here -->
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+<section class='calendar'>
+  <h1>May 2016</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <label class='day invalid' data-day='0'>
+      <input class='appointment' date-day='-4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-4</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='1'>
+      <input class='appointment' date-day='-3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-3</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='2'>
+      <input class='appointment' date-day='-2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-2</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='3'>
+      <input class='appointment' date-day='-1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-1</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='4'>
+      <input class='appointment' date-day='0' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>0</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='5'>
+      <input class='appointment' date-day='1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>0</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='6'>
+      <input class='appointment' date-day='2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>1</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='7'>
+      <input class='appointment' date-day='3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>2</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='8'>
+      <input class='appointment' date-day='4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>3</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='9'>
+      <input class='appointment' date-day='5' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>4</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='10'>
+      <input class='appointment' date-day='6' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>5</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='11'>
+      <input class='appointment' date-day='7' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>6</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='12'>
+      <input class='appointment' date-day='8' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>7</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='13'>
+      <input class='appointment' date-day='9' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>8</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='14'>
+      <input class='appointment' date-day='10' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>9</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='15'>
+      <input class='appointment' date-day='11' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>10</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='16'>
+      <input class='appointment' date-day='12' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>11</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='17'>
+      <input class='appointment' date-day='13' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>12</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='18'>
+      <input class='appointment' date-day='14' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>13</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='19'>
+      <input class='appointment' date-day='15' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>14</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='20'>
+      <input class='appointment' date-day='16' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>15</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='21'>
+      <input class='appointment' date-day='17' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>16</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='22'>
+      <input class='appointment' date-day='18' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>17</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='23'>
+      <input class='appointment' date-day='19' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>18</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='24'>
+      <input class='appointment' date-day='20' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>19</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='25'>
+      <input class='appointment' date-day='21' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>20</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='26'>
+      <input class='appointment' date-day='22' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>21</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='27'>
+      <input class='appointment' date-day='23' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>22</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='28'>
+      <input class='appointment' date-day='24' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>23</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='29'>
+      <input class='appointment' date-day='25' value='Content to be Filled' required='true' type='text'>
+      <span>24</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='30'>
+      <input class='appointment' date-day='26' value='Content to be Filled' required='true' type='text'>
+      <span>25</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='31'>
+      <input class='appointment' date-day='27' value='Content to be Filled' required='true' type='text'>
+      <span>26</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='32'>
+      <input class='appointment' date-day='28' value='Content to be Filled' required='true' type='text'>
+      <span>27</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='33'>
+      <input class='appointment' date-day='29' value='Content to be Filled' required='true' type='text'>
+      <span>28</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='34'>
+      <input class='appointment' date-day='30' value='Content to be Filled' required='true' type='text'>
+      <span>29</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='35'>
+      <input class='appointment' date-day='31' value='Content to be Filled' required='true' type='text'>
+      <span>30</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='35'>
+      <input class='appointment' date-day='31' value='Content to be Filled' required='true' type='text'>
+      <span>31</span>
+      <em></em>
+    </label>
+    <div class='clearfix'></div>
+  </form>
+</section>
+							<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+	<div class="gallery-modal modal fade" id="calendar2" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-content">
+			<div class="close-modal" data-dismiss="modal">
+				<div class="lr">
+					<div class="rl">
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="modal-body" style="color:black">
+							<!-- Project Details Go Here -->
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+<section class='calendar'>
+  <h1>June 2016</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <label class='day invalid' data-day='0'>
+      <input class='appointment' date-day='-4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-4</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='1'>
+      <input class='appointment' date-day='-3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-3</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='2'>
+      <input class='appointment' date-day='-2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>1</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='3'>
+      <input class='appointment' date-day='-1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>2</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='4'>
+      <input class='appointment' date-day='0' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>3</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='5'>
+      <input class='appointment' date-day='1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>4</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='6'>
+      <input class='appointment' date-day='2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>5</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='7'>
+      <input class='appointment' date-day='3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>6</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='8'>
+      <input class='appointment' date-day='4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>7</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='9'>
+      <input class='appointment' date-day='5' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>8</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='10'>
+      <input class='appointment' date-day='6' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>9</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='11'>
+      <input class='appointment' date-day='7' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>10</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='12'>
+      <input class='appointment' date-day='8' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>11</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='13'>
+      <input class='appointment' date-day='9' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>12</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='14'>
+      <input class='appointment' date-day='10' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>13</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='15'>
+      <input class='appointment' date-day='11' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>14</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='16'>
+      <input class='appointment' date-day='12' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>15</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='17'>
+      <input class='appointment' date-day='13' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>16</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='18'>
+      <input class='appointment' date-day='14' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>17</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='19'>
+      <input class='appointment' date-day='15' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>18</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='20'>
+      <input class='appointment' date-day='16' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>19</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='21'>
+      <input class='appointment' date-day='17' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>20</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='22'>
+      <input class='appointment' date-day='18' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>21</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='23'>
+      <input class='appointment' date-day='19' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>22</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='24'>
+      <input class='appointment' date-day='20' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>23</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='25'>
+      <input class='appointment' date-day='21' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>24</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='26'>
+      <input class='appointment' date-day='22' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>25</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='27'>
+      <input class='appointment' date-day='23' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>26</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='28'>
+      <input class='appointment' date-day='24' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>27</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='29'>
+      <input class='appointment' date-day='25' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>28</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='30'>
+      <input class='appointment' date-day='26' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>29</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='31'>
+      <input class='appointment' date-day='27' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>30</span>
+      <em></em>
+    </label>
+    <div class='clearfix'></div>
+  </form>
+</section>
+							<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+	<div class="gallery-modal modal fade" id="calendar3" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-content">
+			<div class="close-modal" data-dismiss="modal">
+				<div class="lr">
+					<div class="rl">
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="modal-body" style="color:black">
+							<!-- Project Details Go Here -->
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+<section class='calendar'>
+  <h1>July 2016</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <label class='day invalid' data-day='0'>
+      <input class='appointment' date-day='-4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-4</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='1'>
+      <input class='appointment' date-day='-3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-3</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='2'>
+      <input class='appointment' date-day='-2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-2</span>
+      <em></em>
+    </label>
+    <label class='day invalid' data-day='3'>
+      <input class='appointment' date-day='-1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>-1</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='4'>
+      <input class='appointment' date-day='0' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>1</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='5'>
+      <input class='appointment' date-day='1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>2</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='6'>
+      <input class='appointment' date-day='2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>3</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='7'>
+      <input class='appointment' date-day='3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>4</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='8'>
+      <input class='appointment' date-day='4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>5</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='9'>
+      <input class='appointment' date-day='5' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>6</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='10'>
+      <input class='appointment' date-day='6' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>7</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='11'>
+      <input class='appointment' date-day='7' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>8</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='12'>
+      <input class='appointment' date-day='8' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>9</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='13'>
+      <input class='appointment' date-day='9' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>10</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='14'>
+      <input class='appointment' date-day='10' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>11</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='15'>
+      <input class='appointment' date-day='11' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>12</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='16'>
+      <input class='appointment' date-day='12' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>13</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='17'>
+      <input class='appointment' date-day='13' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>14</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='18'>
+      <input class='appointment' date-day='14' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>15</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='19'>
+      <input class='appointment' date-day='15' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>16</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='20'>
+      <input class='appointment' date-day='16' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>17</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='21'>
+      <input class='appointment' date-day='17' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>18</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='22'>
+      <input class='appointment' date-day='18' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>19</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='23'>
+      <input class='appointment' date-day='19' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>20</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='24'>
+      <input class='appointment' date-day='20' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>21</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='25'>
+      <input class='appointment' date-day='21' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>22</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='26'>
+      <input class='appointment' date-day='22' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>23</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='27'>
+      <input class='appointment' date-day='23' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>24</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='28'>
+      <input class='appointment' date-day='24' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>25</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='29'>
+      <input class='appointment' date-day='25' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>26</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='30'>
+      <input class='appointment' date-day='26' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>27</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='31'>
+      <input class='appointment' date-day='27' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>28</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='32'>
+      <input class='appointment' date-day='28' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>29</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='33'>
+      <input class='appointment' date-day='29' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>30</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='34'>
+      <input class='appointment' date-day='30' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>31</span>
+      <em></em>
+    </label>
+    <div class='clearfix'></div>
+  </form>
+</section>
+							<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+	<div class="gallery-modal modal fade" id="calendar4" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-content">
+			<div class="close-modal" data-dismiss="modal">
+				<div class="lr">
+					<div class="rl">
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="modal-body" style="color:black">
+							<!-- Project Details Go Here -->
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+<section class='calendar'>
+  <h1>August 2016</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <label class='day' data-day='0'>
+      <input class='appointment' date-day='-4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>1</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='1'>
+      <input class='appointment' date-day='-3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>2</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='2'>
+      <input class='appointment' date-day='-2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>3</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='3'>
+      <input class='appointment' date-day='-1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>4</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='4'>
+      <input class='appointment' date-day='0' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>5</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='5'>
+      <input class='appointment' date-day='1' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>6</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='6'>
+      <input class='appointment' date-day='2' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>7</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='7'>
+      <input class='appointment' date-day='3' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>8</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='8'>
+      <input class='appointment' date-day='4' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>9</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='9'>
+      <input class='appointment' date-day='5' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>10</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='10'>
+      <input class='appointment' date-day='6' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>11</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='11'>
+      <input class='appointment' date-day='7' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>12</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='12'>
+      <input class='appointment' date-day='8' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>13</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='13'>
+      <input class='appointment' date-day='9' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>14</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='14'>
+      <input class='appointment' date-day='10' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>15</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='15'>
+      <input class='appointment' date-day='11' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>16</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='16'>
+      <input class='appointment' date-day='12' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>17</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='17'>
+      <input class='appointment' date-day='13' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>18</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='18'>
+      <input class='appointment' date-day='14' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>19</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='19'>
+      <input class='appointment' date-day='15' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>20</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='20'>
+      <input class='appointment' date-day='16' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>21</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='21'>
+      <input class='appointment' date-day='17' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>22</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='22'>
+      <input class='appointment' date-day='18' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>23</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='23'>
+      <input class='appointment' date-day='19' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>24</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='24'>
+      <input class='appointment' date-day='20' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>25</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='25'>
+      <input class='appointment' date-day='21' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>26</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='26'>
+      <input class='appointment' date-day='22' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>27</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='27'>
+      <input class='appointment' date-day='23' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>28</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='28'>
+      <input class='appointment' date-day='24' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>29</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='29'>
+      <input class='appointment' date-day='25' placeholder='Journey Unstarted' required='true' type='text'>
+      <span>30</span>
+      <em></em>
+    </label>
+    <label class='day' data-day='30'>
+      <input class='appointment' date-day='26' placeholder='Journey Unstarted' required='true' type='text'
+      <span>31</span>
+      <em></em>
+    </label>
+    <div class='clearfix'></div>
+  </form>
+</section>
+							<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
